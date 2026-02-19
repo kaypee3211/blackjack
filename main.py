@@ -15,29 +15,28 @@ cards = []
 for i in rank:
     for j in colors:
         cards.append(card(i,j))
-print(cards[0]) #calling __str__ only of object of the class card and only when printing or converting on text
+#print(cards[0]) #calling __str__ only of object of the class card and only when printing or converting on text
 count_ace = 0
 def count_points(cards,points):
     global count_ace
-    for i in range(len(player_cards)):
-        x = str(player_cards[i])
+    for i in range(len(cards)):
+        x = str(cards[i])
         x = x.split(' ')
         if x[0] in ('jack', 'queen', 'king'):
             points += 10
         elif x[0] != 'ace':
             points += int(x[0])
         if x[0] == 'ace':
-            count_ace = count_ace + 1
-        print(player_cards[i])
-    if count_ace != 0:
-        while count_ace > 0:
-            if (points + 11) <= 21:
-                points += 11
-            else:
-                points += 1
-            count_ace = count_ace - 1
+            continue
     return points
 
+def how_many_aces(cards,count_ace):
+    for i in range(len(cards)):
+        x = str(cards[i])
+        x = x.split(' ')
+        if x[0] == 'ace':
+            count_ace = count_ace + 1
+        return count_ace
 
 move = ''
 while move != 'stand':
@@ -61,16 +60,18 @@ while move != 'stand':
         print('------------------------')
         print("First card reveal:")
         print(casino_cards[0])
+        player_cards.append(casino_cards[0])
         print('------------------------')
         choice = ''
         print('Whats your choice?')
         move = str(input())
 
-
         if move == 'stand':
             move = 'stand'
+            #player_score = count_points(player_cards, player_score)
+
         elif move == 'hit':
-            while move == 'hit' and player_score <= 100:
+            while move == 'hit' and player_score <= 500:
                 number = random.randint(0, 51)
                 player_cards.append(cards[number])
                 player_score = count_points(player_cards,player_score)
@@ -82,11 +83,15 @@ while move != 'stand':
         print('------------------------')
         print("Second card reveal:\n")
         print(casino_cards[1])
+        player_cards.append(casino_cards[1])
         for i in range(len(player_cards)):
             print(player_cards[i])
         print('------------------------')
 
         print(f"Your score: {player_score}")
+        player_score = count_points(player_cards, player_score)
+        count_ace = how_many_aces(player_cards,count_ace)
+        print(count_ace)
         print(casino_score)
         break
 
