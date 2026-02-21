@@ -18,7 +18,7 @@ for i in rank:
 #print(cards[0]) #calling __str__ only of object of the class card and only when printing or converting on text
 count_ace = 0
 def count_points(cards,points):
-    global count_ace
+    points = 0
     for i in range(len(cards)):
         x = str(cards[i])
         x = x.split(' ')
@@ -26,7 +26,7 @@ def count_points(cards,points):
             points += 10
         elif x[0] != 'ace':
             points += int(x[0])
-        if x[0] == 'ace':
+        elif x[0] == 'ace':
             continue
     return points
 
@@ -60,7 +60,6 @@ while move != 'stand':
         print('------------------------')
         print("First card reveal:")
         print(casino_cards[0])
-        player_cards.append(casino_cards[0])
         print('------------------------')
         choice = ''
         print('Whats your choice?')
@@ -71,28 +70,45 @@ while move != 'stand':
             #player_score = count_points(player_cards, player_score)
 
         elif move == 'hit':
-            while move == 'hit' and player_score <= 500:
+            while move == 'hit' and count_points(player_cards,player_score) <= 21:
                 number = random.randint(0, 51)
                 player_cards.append(cards[number])
-                player_score = count_points(player_cards,player_score)
+                print(f"Your card: {cards[number]}")
                 print('Whats your choice?')
                 move = str(input())
-        if player_score == 0:
-            player_score= count_points(player_cards,player_score)
+
+        #adding cards for casyno
+        if count_points(casino_cards, casino_score) <= 16:
+            number = random.randint(0, 51)
+            casino_cards.append(cards[number])
 
         print('------------------------')
         print("Second card reveal:\n")
         print(casino_cards[1])
-        player_cards.append(casino_cards[1])
+        print('Player cards:')
+        print('########################')
         for i in range(len(player_cards)):
             print(player_cards[i])
-        print('------------------------')
+        print('########################')
+        print('-------------------')
+        print('Casino cards:')
+        print('########################')
+        for i in range(len(casino_cards)):
+            print(casino_cards[i])
+        print('########################')
 
-        print(f"Your score: {player_score}")
+
         player_score = count_points(player_cards, player_score)
+        casino_score = count_points(casino_cards, casino_score)
         count_ace = how_many_aces(player_cards,count_ace)
-        print(count_ace)
+        #@print(count_ace)
+        print(f"Your score: {player_score}")
         print(casino_score)
+
+        if player_score <= 21 and abs(21 - player_score) < abs(21 - casino_score):
+            print('You won!!!')
+        else:
+            print('You lost!!!')
         break
 
 
