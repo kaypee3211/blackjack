@@ -4,8 +4,6 @@ from money import money
 
 # double down
 # split
-# add to payofdebt
-
 
 class card:
     def __init__(self,rank,color):
