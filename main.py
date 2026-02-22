@@ -1,7 +1,11 @@
 import random
 from money import money
 
-#do with money
+
+# double down
+# split
+# add to payofdebt
+
 
 class card:
     def __init__(self,rank,color):
@@ -69,9 +73,10 @@ x = int(input())
 player = money(x, 0)
 debt = player.debt = 0
 
-
+rounds = 0
 do_we_play = 1
 while do_we_play == 1:
+    round += 1
     cards = t.copy()
     random.shuffle(cards)
     player_score = 0
@@ -107,8 +112,6 @@ while do_we_play == 1:
     print('------------------------')
     choice = ''
 
-    #double down
-    #split
 
 
     print('Whats your choice?')
@@ -204,11 +207,17 @@ while do_we_play == 1:
     print(f'Your money: {player.all}')
     print(f'Your debt: {player.debt}')
 
-    if player.all == 0 and player.debt >= 1000:
-        print('You have 1000 debt. Go to work to pay it off')
-        print(f'Your debt {player.debt}')
-        do_we_play = 2
+
+
+    if rounds % 5 == 0 and player.debt > 0:
+        print('You need to pay your debt to continue playing:')
+        if player.all >= player.debt:
+            print('Paying off debt with your money...')
+            player.payOffDebt(player.debt)
+        else:
+            print(f'You have {player.debt} debt. Go to work to pay it off')
+            print(f'Your debt {player.debt}')
+            do_we_play = 2
     else:
         print('Do you want another round? \n 1. Yes \n 2. No')
         do_we_play = int(input())
-
