@@ -74,7 +74,7 @@ debt = player.debt = 0
 rounds = 0
 do_we_play = 1
 while do_we_play == 1:
-    round += 1
+    rounds += 1
     cards = t.copy()
     random.shuffle(cards)
     player_score = 0
